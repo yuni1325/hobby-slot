@@ -40,8 +40,6 @@ export default function BackupActions() {
     setMessage('')
     const result = await exportJson()
     setBusy(false)
-    if (result === 'shared') setMessage('バックアップを保存しました')
-    if (result === 'downloaded') setMessage('バックアップファイルをダウンロードしました')
     if (result === 'failed') setDialog('copy')
   }
 
@@ -64,11 +62,11 @@ export default function BackupActions() {
         </p>
       )}
       <div className="actions">
-        <button type="button" className="btn-primary" onClick={onExport} disabled={busy}>
-          バックアップを保存
+        <button type="button" className="btn-secondary" onClick={onExport} disabled={busy}>
+          JSONエクスポート
         </button>
         <button type="button" className="btn-secondary" onClick={() => inputRef.current?.click()}>
-          ファイルから復元
+          JSONインポート
         </button>
         <input
           ref={inputRef}
@@ -84,8 +82,7 @@ export default function BackupActions() {
       </div>
       {message && <p className="ok-msg" role="status">{message}</p>}
       <p className="hint">
-        「バックアップを保存」を押すと共有メニューが開くので、<strong>「ドライブ」</strong>（Googleドライブ）や「"ファイル"に保存」を選んでください。
-        復元は「ファイルから復元」でGoogleドライブ内のファイルを選びます。
+        データはこの端末のブラウザに保存されます。消えたとき用に JSON エクスポートを推奨します（HYENA SLOT と同じ保存方法）。
       </p>
       <p className="hint">
         <button type="button" className="text-link-btn" onClick={() => setDialog('copy')}>
@@ -110,7 +107,7 @@ export default function BackupActions() {
               <>
                 <h3>テキストでバックアップ</h3>
                 <p className="hint">
-                  この画面からはファイルを保存できませんでした。下のテキストをコピーして、メモやGoogleドキュメントなどに貼り付けて保管してください。
+                  下のテキストをコピーして、メモやGoogleドキュメントなどに貼り付けて保管してください。
                 </p>
                 <textarea readOnly value={recordsJsonText(file)} rows={8} onFocus={(e) => e.target.select()} />
                 <div className="actions">

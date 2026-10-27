@@ -100,60 +100,19 @@ export function recordsJsonText(file: RecordsFile): string {
   )
 }
 
-export function backupFileName(): string {
-  const d = new Date()
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `hobby-slot-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}.json`
-}
+export type ExportResult = 'downloaded' | 'failed'
 
-export type ExportResult = 'shared' | 'downloaded' | 'cancelled' | 'failed'
-
-/**
- * バックアップの書き出し。
- * 1) 共有シート（iPhone/Android: Googleドライブ・ファイルに保存 などを選べる）
- * 2) ダウンロード（PCブラウザ）
- * ホーム画面アプリ（iOSスタンドアロン）はダウンロードが効かないため共有を優先する。
- */
+/** バックアップの書き出し（HYENA SLOT と同じダウンロード方式） */
 export async function exportRecords(file: RecordsFile): Promise<ExportResult> {
-  const text = recordsJsonText(file)
-  const name = backupFileName()
-
-  const nav = navigator as Navigator & {
-    canShare?: (data: ShareData) => boolean
-  }
-  const standalone =
-    window.matchMedia?.('(display-mode: standalone)').matches ||
-    (navigator as Navigator & { standalone?: boolean }).standalone === true
-  // スマホ（タッチ操作）とホーム画面アプリは共有シート、PCはダウンロード
-  const preferShare = standalone || window.matchMedia?.('(pointer: coarse)').matches
-
-  if (preferShare && typeof nav.share === 'function' && typeof nav.canShare === 'function') {
-    for (const type of ['application/json', 'text/plain']) {
-      const f = new File([text], name, { type })
-      if (!nav.canShare({ files: [f] })) continue
-      try {
-        await nav.share({ files: [f], title: 'HOBBY SLOT バックアップ' })
-        return 'shared'
-      } catch (e) {
-        if (e instanceof DOMException && e.name === 'AbortError') return 'cancelled'
-        break
-      }
-    }
-  }
-
-  if (standalone) return 'failed'
-
   try {
-    const blob = new Blob([text], { type: 'application/json' })
+    const blob = new Blob([recordsJsonText(file)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
+    const stamp = new Date().toISOString().slice(0, 10)
     a.href = url
-    a.download = name
-    a.rel = 'noopener'
-    document.body.appendChild(a)
+    a.download = `hobby-slot-records-${stamp}.json`
     a.click()
-    a.remove()
-    setTimeout(() => URL.revokeObjectURL(url), 10_000)
+    URL.revokeObjectURL(url)
     return 'downloaded'
   } catch {
     return 'failed'
