@@ -102,9 +102,16 @@ export default function YearPage() {
           <p className="hint">最終列の「計」は年間回収率。</p>
         </section>
 
-        <section className="summary" aria-label="台別">
+        <section className="summary" aria-label="機種別">
           {machines.length ? (
-            <MachineTable rows={machines} title="台別（収支の良い順）" />
+            <>
+            <MachineTable rows={machines} title="機種別（収支の良い順）" />
+              <p className="year-link-wrap">
+                <Link to={`/machines?p=year&y=${year}`} className="text-link">
+                  機種別収支をくわしく見る →
+                </Link>
+              </p>
+            </>
           ) : (
             <p className="hint">この年の記録はまだありません。</p>
           )}

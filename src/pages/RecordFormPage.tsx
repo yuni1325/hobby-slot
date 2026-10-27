@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { dateLabel, parseYen, signedYen, tone } from '../lib/format'
 import { newId, type PlayRecord } from '../lib/records'
 import { useRecords } from '../lib/recordsContext'
+import MachinePicker from '../components/MachinePicker'
+import { canonicalMachine } from '../lib/machineSearch'
 import { isDateKey, machineHistory, shopHistory } from '../lib/stats'
 
 const STEPS = [1000, 5000, 10000]
@@ -94,7 +96,7 @@ export default function RecordFormPage() {
     const r: PlayRecord = {
       id: existing?.id ?? newId(),
       date,
-      machine: machine.trim(),
+      machine: canonicalMachine(machine),
       invest: inv,
       recover: rec,
       shop: shop.trim() || undefined,
@@ -115,7 +117,7 @@ export default function RecordFormPage() {
             ← {isDateKey(params.date) ? dateLabel(params.date) : '戻る'}
           </Link>
         </p>
-        <h1 className="page-title">{existing ? '記録を編集' : '台を追加'}</h1>
+        <h1 className="page-title">{existing ? '記録を編集' : '記録を追加'}</h1>
       </header>
 
       <main className="panel">
@@ -126,36 +128,12 @@ export default function RecordFormPage() {
             save()
           }}
         >
-          <label className="field">
-            <span>台（機種名）</span>
-            <input
-              type="text"
-              list="machine-history"
-              placeholder="例: 北斗転生2"
-              value={machine}
-              autoFocus={!existing}
-              onChange={(e) => setMachine(e.target.value)}
-            />
-            <datalist id="machine-history">
-              {machines.map((m) => (
-                <option key={m} value={m} />
-              ))}
-            </datalist>
-          </label>
-          {machines.length > 0 && !existing && (
-            <div className="steps recent">
-              {machines.slice(0, 6).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  className={`chip ${machine === m ? 'is-on' : ''}`}
-                  onClick={() => setMachine(m)}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-          )}
+          <MachinePicker
+            value={machine}
+            onChange={setMachine}
+            recent={machines}
+            autoFocus={!existing}
+          />
 
           <YenField label="投資金額" value={invest} onChange={setInvest} />
           <YenField label="回収金額" value={recover} onChange={setRecover} />
@@ -213,7 +191,7 @@ export default function RecordFormPage() {
               </button>
             )}
           </div>
-          {!canSave && machine.trim() === '' && <p className="hint">台名を入れると保存できます。</p>}
+          {!canSave && machine.trim() === '' && <p className="hint">機種を選ぶと保存できます。</p>}
         </form>
       </main>
     </div>

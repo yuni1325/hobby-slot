@@ -1,3 +1,4 @@
+import { displayName, typeOf } from './machineSearch'
 import { profitOf, type PlayRecord } from './records'
 
 export type Totals = {
@@ -15,7 +16,12 @@ export type Totals = {
 }
 
 export type MachineTotals = {
+  /** 保存されている機種名（正式名称） */
   machine: string
+  /** 表示名（略称） */
+  label: string
+  type: 'S' | 'P' | null
+  days: number
   count: number
   invest: number
   recover: number
@@ -94,19 +100,35 @@ export function profitByDate(rs: PlayRecord[]): Map<string, { profit: number; co
 
 /** 機種別（収支の良い順） */
 export function byMachine(rs: PlayRecord[]): MachineTotals[] {
-  const map = new Map<string, MachineTotals>()
+  const map = new Map<string, MachineTotals & { dates: Set<string> }>()
   for (const r of rs) {
-    const key = r.machine.trim() || '（台名なし）'
+    const key = r.machine.trim() || '（機種名なし）'
     const cur =
-      map.get(key) ??
-      { machine: key, count: 0, invest: 0, recover: 0, profit: 0, recoverRate: null }
+      map.get(key) ?? {
+        machine: key,
+        label: displayName(key),
+        type: typeOf(key),
+        days: 0,
+        count: 0,
+        invest: 0,
+        recover: 0,
+        profit: 0,
+        recoverRate: null,
+        dates: new Set<string>(),
+      }
     cur.count += 1
     cur.invest += r.invest
     cur.recover += r.recover
+    cur.dates.add(r.date)
     map.set(key, cur)
   }
   return [...map.values()]
-    .map((m) => ({ ...m, profit: m.recover - m.invest, recoverRate: rate(m.invest, m.recover) }))
+    .map(({ dates, ...m }) => ({
+      ...m,
+      days: dates.size,
+      profit: m.recover - m.invest,
+      recoverRate: rate(m.invest, m.recover),
+    }))
     .sort((a, b) => b.profit - a.profit)
 }
 

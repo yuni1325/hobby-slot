@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { SummaryCard } from '../components/Summary'
 import { dateLabel, signedYen, tone, yen } from '../lib/format'
 import { profitOf } from '../lib/records'
+import { displayName, typeOf } from '../lib/machineSearch'
 import { useRecords } from '../lib/recordsContext'
 import { dateKey, isDateKey, onDate, totals } from '../lib/stats'
 
@@ -53,7 +54,7 @@ export default function DayPage() {
       <main className="panel">
         <div className="quick-add">
           <Link className="btn-primary" to={`/day/${date}/new`}>
-            ＋ 台を追加
+            ＋ 記録を追加
           </Link>
         </div>
 
@@ -68,7 +69,12 @@ export default function DayPage() {
                   <li key={r.id} className="record-card">
                     <Link to={`/day/${date}/${r.id}`} className="record-main">
                       <span className="record-top">
-                        <span className="record-name">{r.machine || '（台名なし）'}</span>
+                        <span className="record-name">
+                          {typeOf(r.machine) && (
+                            <span className={`type-dot is-${typeOf(r.machine)!.toLowerCase()}`} aria-hidden />
+                          )}
+                          {displayName(r.machine) || '（機種名なし）'}
+                        </span>
                         <strong className={`record-profit ${tone(p)}`}>{signedYen(p)}</strong>
                       </span>
                       <span className="record-row">
@@ -81,7 +87,7 @@ export default function DayPage() {
                       type="button"
                       className="btn-danger-text"
                       onClick={() => {
-                        if (window.confirm(`「${r.machine || '台名なし'}」の記録を削除しますか？`)) remove(r.id)
+                        if (window.confirm(`「${displayName(r.machine) || '機種名なし'}」の記録を削除しますか？`)) remove(r.id)
                       }}
                     >
                       削除

@@ -38,7 +38,7 @@ export function SummaryCard({
           <dt>勝ち日 / 稼働日</dt>
           <dd>
             {t.winDays} / {t.days}日
-            <span className="sub">（{t.count}台）</span>
+            <span className="sub">（{t.count}件）</span>
           </dd>
         </div>
       </dl>
@@ -47,7 +47,7 @@ export function SummaryCard({
   )
 }
 
-export function MachineTable({ rows, title = '台別' }: { rows: MachineTotals[]; title?: string }) {
+export function MachineTable({ rows, title = '機種別' }: { rows: MachineTotals[]; title?: string }) {
   if (rows.length === 0) return null
   return (
     <div className="machine-table-wrap">
@@ -55,7 +55,7 @@ export function MachineTable({ rows, title = '台別' }: { rows: MachineTotals[]
       <table className="machine-table">
         <thead>
           <tr>
-            <th className="left">台</th>
+            <th className="left">機種</th>
             <th>回数</th>
             <th>投資</th>
             <th>回収</th>
@@ -65,7 +65,10 @@ export function MachineTable({ rows, title = '台別' }: { rows: MachineTotals[]
         <tbody>
           {rows.map((m) => (
             <tr key={m.machine}>
-              <td className="left">{m.machine}</td>
+              <td className="left">
+                {m.type && <span className={`type-dot is-${m.type.toLowerCase()}`} aria-label={m.type === 'S' ? 'スロット' : 'パチンコ'} />}
+                {m.label}
+              </td>
               <td>{m.count}</td>
               <td>{m.invest.toLocaleString('ja-JP')}</td>
               <td>{m.recover.toLocaleString('ja-JP')}</td>

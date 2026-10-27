@@ -115,7 +115,7 @@ export default function CalendarPage() {
                 {d && (
                   <>
                     <span className={`cal-delta ${t}`}>{compactSigned(d.profit)}</span>
-                    <span className="cal-meta">{d.count}台</span>
+                    <span className="cal-meta">{d.count}件</span>
                   </>
                 )}
               </Link>
@@ -130,7 +130,12 @@ export default function CalendarPage() {
         </div>
 
         <SummaryCard title={`${month}月の収支`} t={monthTotals}>
-          <MachineTable rows={monthMachines} title={`${month}月の台別`} />
+          <MachineTable rows={monthMachines} title={`${month}月の機種別`} />
+          <p className="year-link-wrap">
+            <Link to={`/machines?y=${year}&m=${month}`} className="text-link">
+              機種別収支をくわしく見る →
+            </Link>
+          </p>
         </SummaryCard>
 
         <section className="summary year-summary" aria-label={`${year}年の収支`}>
@@ -143,7 +148,7 @@ export default function CalendarPage() {
           <MonthBars year={year} months={months} current={month} />
           <p className="year-link-wrap">
             <Link to={`/year/${year}`} className="text-link">
-              {year}年の詳細（月別・台別）→
+              {year}年の詳細（月別・機種別）→
             </Link>
           </p>
         </section>

@@ -5,6 +5,7 @@ import CalendarPage from './pages/CalendarPage'
 import DayPage from './pages/DayPage'
 import RecordFormPage from './pages/RecordFormPage'
 import YearPage from './pages/YearPage'
+import MachinesPage from './pages/MachinesPage'
 import './App.css'
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/" element={<CalendarPage />} />
           <Route path="/month/:ym" element={<CalendarPage />} />
           <Route path="/year/:year" element={<YearPage />} />
+          <Route path="/machines" element={<MachinesPage />} />
           <Route path="/day/:date" element={<DayPage />} />
           <Route path="/day/:date/new" element={<RecordFormPage />} />
           <Route path="/day/:date/:id" element={<RecordFormPage />} />

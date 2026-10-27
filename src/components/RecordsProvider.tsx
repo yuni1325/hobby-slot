@@ -8,10 +8,27 @@ import {
   type PlayRecord,
   type RecordsFile,
 } from '../lib/records'
+import { canonicalMachine } from '../lib/machineSearch'
 import { RecordsContext } from '../lib/recordsContext'
 
+/** 既存記録の機種名をDBの正式名称に寄せる（表記揺れの解消） */
+function canonicalize(file: RecordsFile): { file: RecordsFile; changed: boolean } {
+  let changed = false
+  const records = file.records.map((r) => {
+    const name = canonicalMachine(r.machine)
+    if (name === r.machine) return r
+    changed = true
+    return { ...r, machine: name }
+  })
+  return { file: changed ? { ...file, records } : file, changed }
+}
+
 export default function RecordsProvider({ children }: { children: ReactNode }) {
-  const [file, setFile] = useState<RecordsFile>(() => loadRecordsFile())
+  const [file, setFile] = useState<RecordsFile>(() => {
+    const { file: f, changed } = canonicalize(loadRecordsFile())
+    if (changed) saveRecordsFile(f)
+    return f
+  })
   const [saveFailed, setSaveFailed] = useState(false)
 
   const commit = useCallback((records: PlayRecord[]) => {
@@ -38,7 +55,8 @@ export default function RecordsProvider({ children }: { children: ReactNode }) {
   const exportJson = useCallback(() => downloadRecordsJson(file), [file])
 
   const importJsonText = useCallback(
-    (text: string) => commit(parseRecordsFile(JSON.parse(text)).records),
+    (text: string) =>
+      commit(canonicalize(parseRecordsFile(JSON.parse(text))).file.records),
     [commit],
   )
 

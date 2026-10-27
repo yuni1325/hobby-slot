@@ -848,3 +848,346 @@ label.field {
   padding-top: 0;
   border-top: none;
 }
+
+/* ---------- machine picker ---------- */
+
+.field-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.field input[type='search'] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.type-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  color: #fffef9;
+}
+
+.type-badge.is-s {
+  background: var(--good);
+}
+
+.type-badge.is-p {
+  background: #7c3aed;
+}
+
+.type-badge.is-free {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px dashed var(--ink-soft);
+}
+
+.type-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.35rem;
+  border-radius: 50%;
+  vertical-align: 0.08em;
+}
+
+.type-dot.is-s {
+  background: var(--good);
+}
+
+.type-dot.is-p {
+  background: #7c3aed;
+}
+
+.candidates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background: var(--card);
+  max-height: 22rem;
+  overflow-y: auto;
+}
+
+.candidates li + li {
+  border-top: 1px solid var(--line);
+}
+
+.candidates button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.5rem 0.65rem;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.candidates button:hover,
+.candidates button:focus-visible {
+  background: rgba(15, 118, 110, 0.08);
+  outline: none;
+}
+
+.cand-text,
+.picked-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.cand-text strong,
+.picked-text strong {
+  font-size: 0.95rem;
+}
+
+.cand-text small,
+.picked-text small {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.cand-free {
+  background: rgba(26, 28, 30, 0.03) !important;
+}
+
+.picked {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.7rem;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background: #fff;
+}
+
+.picked-text {
+  flex: 1;
+}
+
+.text-link-btn {
+  justify-self: start;
+  border: none;
+  background: none;
+  padding: 0.2rem 0;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--good);
+  cursor: pointer;
+}
+
+.filter-tabs {
+  display: inline-flex;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.filter-tabs.is-wide {
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.filter-tabs.is-wide .tab {
+  flex: 1;
+}
+
+.tab {
+  min-height: 2.3rem;
+  padding: 0.3rem 0.8rem;
+  border: none;
+  background: var(--card);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.tab + .tab {
+  border-left: 1px solid var(--ink);
+}
+
+.tab.is-on {
+  background: var(--ink);
+  color: #fffef9;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ---------- machines page ---------- */
+
+.type-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.type-split > div {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.type-split dt {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+}
+
+.type-split dd {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.sort-select select {
+  min-height: 2.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background: var(--card);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.machine-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.machine-card {
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background: var(--card);
+}
+
+.machine-card summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.7rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.machine-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.machine-rank {
+  flex: none;
+  width: 1.6rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.machine-card-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.machine-card-name {
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.machine-card-meta {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.machine-card-profit {
+  flex: none;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.machine-card[open] summary {
+  border-bottom: 1px dashed var(--line);
+}
+
+.machine-history {
+  list-style: none;
+  margin: 0;
+  padding: 0.3rem 0.7rem;
+}
+
+.machine-history a {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.machine-history li + li a {
+  border-top: 1px solid rgba(200, 192, 176, 0.5);
+}
+
+.machine-history .amounts {
+  color: var(--ink-soft);
+}
+
+.machine-history .p {
+  font-weight: 800;
+}
+
+.machine-official {
+  margin: 0;
+  padding: 0 0.7rem 0.6rem;
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+}
