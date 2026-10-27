@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import {
-  downloadRecordsJson,
+  exportRecords,
   FILE_VERSION,
   loadRecordsFile,
   parseRecordsFile,
@@ -52,7 +52,7 @@ export default function RecordsProvider({ children }: { children: ReactNode }) {
     [file, commit],
   )
 
-  const exportJson = useCallback(() => downloadRecordsJson(file), [file])
+  const exportJson = useCallback(() => exportRecords(file), [file])
 
   const importJsonText = useCallback(
     (text: string) =>

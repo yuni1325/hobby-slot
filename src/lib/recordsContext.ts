@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import type { PlayRecord, RecordsFile } from './records'
+import type { ExportResult, PlayRecord, RecordsFile } from './records'
 
 export type RecordsContextValue = {
   file: RecordsFile
@@ -8,7 +8,7 @@ export type RecordsContextValue = {
   saveFailed: boolean
   upsert: (record: PlayRecord) => void
   remove: (id: string) => void
-  exportJson: () => void
+  exportJson: () => Promise<ExportResult>
   importJsonText: (text: string) => void
 }
 
