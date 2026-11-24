@@ -340,10 +340,11 @@ body {
 
 .cal-delta {
   max-width: 100%;
-  font-size: 0.7rem;
+  /* 「−123,000」がスマホ幅のマスに収まる大きさ */
+  font-size: clamp(0.55rem, 2.7vw, 0.74rem);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   white-space: nowrap;
 }
 
@@ -830,10 +831,6 @@ label.field {
     padding: 0.2rem 0.15rem;
   }
 
-  .cal-delta {
-    font-size: 0.62rem;
-  }
-
   .cal-meta {
     display: none;
   }
@@ -1250,5 +1247,12 @@ label.field {
 @media (min-width: 600px) {
   .dialog-backdrop {
     align-items: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .cal-cell {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
   }
 }

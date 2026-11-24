@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import BackupActions from '../components/BackupActions'
 import MonthBars from '../components/MonthBars'
 import { MachineTable, SummaryCard } from '../components/Summary'
-import { compactSigned, signedYen, tone } from '../lib/format'
+import { accountingSigned, signedYen, tone } from '../lib/format'
 import { useRecords } from '../lib/recordsContext'
 import {
   byMachine,
@@ -114,7 +114,7 @@ export default function CalendarPage() {
                 <span className={`cal-day ${c.dow === 5 ? 'sat' : c.dow === 6 ? 'sun' : ''}`}>{c.day}</span>
                 {d && (
                   <>
-                    <span className={`cal-delta ${t}`}>{compactSigned(d.profit)}</span>
+                    <span className={`cal-delta ${t}`}>{accountingSigned(d.profit)}</span>
                     <span className="cal-meta">{d.count}件</span>
                   </>
                 )}

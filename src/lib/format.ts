@@ -7,7 +7,14 @@ export function signedYen(n: number): string {
   return `${sign}${Math.abs(Math.round(n)).toLocaleString('ja-JP')}円`
 }
 
-/** カレンダーのマス用の短い表記（+1.2万 / −5,000） */
+/** カレンダーのマス用：桁区切りの会計表示、単位なし（+40,000 / −5,000 / 0） */
+export function accountingSigned(n: number): string {
+  const r = Math.round(n)
+  if (r === 0) return '0'
+  return `${r > 0 ? '+' : '−'}${Math.abs(r).toLocaleString('ja-JP')}`
+}
+
+/** 月別の棒グラフ用の短い表記（+1.2万 / −5,000） */
 export function compactSigned(n: number, tight = false): string {
   const sign = n > 0 ? '+' : n < 0 ? '−' : '±'
   const a = Math.abs(Math.round(n))
